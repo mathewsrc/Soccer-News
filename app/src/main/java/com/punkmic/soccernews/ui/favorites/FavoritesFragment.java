@@ -4,13 +4,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.punkmic.soccernews.MainActivity;
 import com.punkmic.soccernews.databinding.FragmentFavoritesBinding;
+import com.punkmic.soccernews.domain.News;
+import com.punkmic.soccernews.ui.adapters.NewsAdapter;
+
+import java.util.List;
+
 
 public class FavoritesFragment extends Fragment {
 
@@ -22,10 +28,18 @@ public class FavoritesFragment extends Fragment {
                 new ViewModelProvider(this).get(FavoritesViewModel.class);
 
         binding = FragmentFavoritesBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        loadFavoriteNews();
+        return binding.getRoot();
+    }
 
-        favoritesViewModel.getText().observe(getViewLifecycleOwner(), binding.textDashboard::setText);
-        return root;
+    private void loadFavoriteNews() {
+        MainActivity activity = (MainActivity) getActivity();
+        List<News> favoriteNews = activity.getDb().newsDao().loadFavoriteNews();
+        binding.rvNews.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        binding.rvNews.setAdapter(new NewsAdapter(favoriteNews, updateNews -> {
+            activity.getDb().newsDao().save(updateNews);
+            loadFavoriteNews();
+        }));
     }
 
     @Override
