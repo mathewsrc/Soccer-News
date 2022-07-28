@@ -25,16 +25,17 @@ public class NewsFragment extends Fragment {
         newsViewModel = new ViewModelProvider(this).get(NewsViewModel.class);
 
         binding = FragmentNewsBinding.inflate(inflater, container, false);
-        binding.rvNews.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        binding.rvNews.setLayoutManager(new LinearLayoutManager(getContext()));
         observeNews();
         observeStates();
-        binding.swipeToRefresh.setOnRefreshListener(this::observeNews);
+        binding.swipeToRefresh.setOnRefreshListener(newsViewModel::findNews);
         return binding.getRoot();
     }
 
     private void observeNews() {
-        newsViewModel.getNews().observe(getViewLifecycleOwner(), news ->
-                binding.rvNews.setAdapter(new NewsAdapter(news, newsViewModel::saveNews)));
+        newsViewModel.getNews().observe(getViewLifecycleOwner(), news -> {
+            binding.rvNews.setAdapter(new NewsAdapter(news, newsViewModel::saveNews));
+        });
     }
 
     private void observeStates() {

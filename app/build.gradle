@@ -55,7 +55,7 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
-    // Swipe refresh layout
+    // Swipe refresh layout: https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout?hl=pt-br
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 

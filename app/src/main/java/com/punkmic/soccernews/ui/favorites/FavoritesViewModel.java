@@ -13,7 +13,6 @@ import java.util.List;
 public class FavoritesViewModel extends ViewModel {
 
     public FavoritesViewModel() {
-        loadFavoriteNews();
     }
 
     public LiveData<List<News>> loadFavoriteNews() {

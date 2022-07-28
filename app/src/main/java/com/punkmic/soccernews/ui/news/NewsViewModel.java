@@ -1,5 +1,7 @@
 package com.punkmic.soccernews.ui.news;
 
+import android.os.AsyncTask;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -27,7 +29,7 @@ public class NewsViewModel extends ViewModel {
         this.findNews();
     }
 
-    private void findNews() {
+    public void findNews() {
         state.setValue(State.DOING);
         SoccerNewsRepository.getInstance().getRemoteApi().getNews().enqueue(new Callback<List<News>>() {
             @Override
@@ -48,7 +50,7 @@ public class NewsViewModel extends ViewModel {
     }
 
     public void saveNews(News news) {
-        SoccerNewsRepository.getInstance().getLocalDb().newsDao().save(news);
+        AsyncTask.execute(() -> SoccerNewsRepository.getInstance().getLocalDb().newsDao().save(news));
     }
 
     public LiveData<List<News>> getNews() {

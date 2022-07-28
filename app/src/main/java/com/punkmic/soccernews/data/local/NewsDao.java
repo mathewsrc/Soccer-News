@@ -13,9 +13,9 @@ import java.util.List;
 @Dao
 public interface NewsDao {
 
-    @Query("SELECT * FROM news WHERE favorite = 1")
-    LiveData<List<News>> loadFavoriteNews();
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void save(News news);
+
+    @Query("SELECT * FROM news WHERE favorite = 1")
+    LiveData<List<News>> loadFavoriteNews();
 }

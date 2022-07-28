@@ -26,6 +26,7 @@ public class FavoritesFragment extends Fragment {
 
         binding = FragmentFavoritesBinding.inflate(inflater, container, false);
         loadFavoriteNews();
+
         return binding.getRoot();
     }
 
